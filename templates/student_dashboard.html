@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Upload a project</h2>
+<form method="post" enctype="multipart/form-data" class="card">
+  <label>Project title</label><input name="title" required>
+  <label>Domain it fits</label>
+  <select name="domain">{% for d in DOMAINS %}<option>{{ d }}</option>{% endfor %}</select>
+  <label>Description (what it does, tools used, your role)</label><textarea name="description" required></textarea>
+  <label>Link (GitHub or demo), optional</label><input name="link" placeholder="https://">
+  <label>File (report or screenshot), optional</label><input type="file" name="file" accept=".png,.jpg,.jpeg,.pdf">
+  <button>Save project</button>
+</form>
+<h3>My projects</h3>
+{% for p in projects %}
+<div class="card"><b>{{ p.title }}</b> <span class="tag">{{ p.domain }}</span><p>{{ p.description }}</p></div>
+{% else %}<p class="mu">No projects yet.</p>{% endfor %}
+{% endblock %}

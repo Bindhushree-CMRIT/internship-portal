@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Find free internships. Show real projects.</h1>
+<p class="mu">Companies are verified before they can post. Students upload projects and get matched.</p>
+<div class="grid">
+  <div class="card"><h2>🏢 Companies</h2><p>Register, submit documents for verification, post internships and review student projects.</p>
+    <a class="btn" href="{{ url_for('register') }}">Register as company</a></div>
+  <div class="card"><h2>🎓 Students</h2><p>Upload your project, pick its domain, apply, and see feedback if you are not selected.</p>
+    <a class="btn" href="{{ url_for('register') }}">Register as student</a></div>
+</div>
+{% endblock %}

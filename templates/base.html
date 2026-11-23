@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>InternBridge</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<nav>
+  <a class="logo" href="/">InternBridge</a>
+  <div>
+  {% if current_user.is_authenticated %}
+    {% if current_user.role == 'company' %}
+      <a href="{{ url_for('company_dashboard') }}">Dashboard</a>
+      <a href="{{ url_for('post_job') }}">Post internship</a>
+      <a href="{{ url_for('applicants') }}">Applicants</a>
+    {% elif current_user.role == 'student' %}
+      <a href="{{ url_for('student_dashboard') }}">My projects</a>
+      <a href="{{ url_for('jobs') }}">Internships</a>
+      <a href="{{ url_for('my_applications') }}">My applications</a>
+    {% else %}
+      <a href="{{ url_for('admin') }}">Verification</a>
+    {% endif %}
+    <a href="{{ url_for('logout') }}">Logout</a>
+  {% else %}
+    <a href="{{ url_for('login') }}">Login</a>
+    <a href="{{ url_for('register') }}">Register</a>
+  {% endif %}
+  </div>
+</nav>
+<main>
+  {% with msgs = get_flashed_messages(with_categories=true) %}
+    {% for cat, m in msgs %}<div class="flash {{ cat }}">{{ m }}</div>{% endfor %}
+  {% endwith %}
+  {% block content %}{% endblock %}
+</main>
+</body>
+</html>

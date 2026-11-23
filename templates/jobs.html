@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Free internships</h2>
+{% for j in jobs %}
+<div class="card">
+  <b>{{ j.title }}</b> at {{ j.company.name }}
+  <span class="tag">{{ j.domain }}</span> <span class="tag verified">Free</span>
+  <p class="mu">{{ j.duration }}</p><p>{{ j.description }}</p>
+  {% set a = applied.get(j.id) %}
+  {% set match = projects | selectattr('domain', 'equalto', j.domain) | list %}
+  {% if a %}
+    <span class="tag {{ a.status }}">{{ a.status }}</span>
+  {% elif match %}
+    <form method="post" action="{{ url_for('apply', job_id=j.id) }}">
+      <select name="project_id">{% for p in match %}<option value="{{ p.id }}">{{ p.title }}</option>{% endfor %}</select>
+      <button>Apply</button>
+    </form>
+  {% else %}
+    <div class="flash warn">Upload a project in "{{ j.domain }}" to apply.</div>
+  {% endif %}
+</div>
+{% else %}<p class="mu">No internships posted yet.</p>{% endfor %}
+{% endblock %}

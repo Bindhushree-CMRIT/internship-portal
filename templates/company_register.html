@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Company verification</h2>
+<p class="mu">Submit your details and document photos. You can post internships after approval.</p>
+<form method="post" enctype="multipart/form-data" class="card">
+  <label>Company name</label><input name="name" required>
+  <label>Website (example: acme.com)</label><input name="website" required>
+  <label>CIN (21 characters)</label><input name="cin" required>
+  <label>GSTIN (15 characters)</label><input name="gst" required>
+  <label>Authorized signatory name</label><input name="sign_name" required>
+  <label>Signatory designation</label><input name="sign_role" required>
+  <label>Company registration certificate (photo or PDF)</label>
+  <input type="file" name="reg_doc" accept=".png,.jpg,.jpeg,.pdf" required>
+  <label>Signatory ID proof / authorization letter (photo or PDF)</label>
+  <input type="file" name="sign_doc" accept=".png,.jpg,.jpeg,.pdf" required>
+  <button>Submit for verification</button>
+</form>
+{% endblock %}

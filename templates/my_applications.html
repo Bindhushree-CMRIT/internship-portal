@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>My applications</h2>
+{% for a in apps %}
+<div class="card">
+  <b>{{ a.internship.title }}</b> at {{ a.internship.company.name }}
+  <span class="tag {{ a.status }}">{{ a.status }}</span>
+  {% if a.status == 'rejected' %}
+    <div class="flash error"><b>Why you were not selected:</b> {{ a.reason }}<br>
+    Tip: improve the project (add documentation, a demo, more depth) and apply to similar roles.</div>
+  {% elif a.status == 'selected' %}
+    <div class="flash ok">🎉 You are selected! {{ a.reason }}</div>
+  {% elif a.status == 'shortlisted' %}
+    <div class="flash warn">You are shortlisted. {{ a.reason }}</div>
+  {% else %}
+    <div class="flash warn">Waiting for the company to review.</div>
+  {% endif %}
+</div>
+{% else %}<p class="mu">You have not applied yet.</p>{% endfor %}
+{% endblock %}

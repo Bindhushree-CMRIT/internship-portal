@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Applicants</h2>
+{% for a in apps %}
+<div class="card">
+  <b>{{ a.student.email }}</b> applied for <b>{{ a.internship.title }}</b>
+  <span class="tag {{ a.status }}">{{ a.status }}</span>
+  <p><b>Project:</b> {{ a.project.title }} <span class="tag">{{ a.project.domain }}</span><br>
+  {{ a.project.description }}<br>
+  {% if a.project.link %}<a href="{{ a.project.link }}" target="_blank" rel="noopener">Project link</a> {% endif %}
+  {% if a.project.file %}<a href="{{ url_for('files', name=a.project.file) }}" target="_blank">Project file</a>{% endif %}</p>
+  {% if a.status == 'rejected' %}
+    <div class="flash error">Reason sent: {{ a.reason }}</div>
+  {% else %}
+  <form method="post">
+    <input name="reason" placeholder="Feedback (required if rejecting)" value="{{ a.reason }}">
+    <button formaction="{{ url_for('update_application', aid=a.id, status='shortlisted') }}" class="sec">Shortlist</button>
+    <button formaction="{{ url_for('update_application', aid=a.id, status='selected') }}" class="good">Select</button>
+    <button formaction="{{ url_for('update_application', aid=a.id, status='rejected') }}" class="bad">Reject</button>
+  </form>
+  {% endif %}
+</div>
+{% else %}<p class="mu">No applicants yet.</p>{% endfor %}
+{% endblock %}

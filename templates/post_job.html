@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Post a free internship</h2>
+<form method="post" class="card">
+  <label>Role title</label><input name="title" required>
+  <label>Domain</label>
+  <select name="domain">{% for d in DOMAINS %}<option>{{ d }}</option>{% endfor %}</select>
+  <label>Duration (example: 3 months)</label><input name="duration" required>
+  <label>Description and skills expected</label><textarea name="description" required></textarea>
+  <button>Publish</button>
+</form>
+{% endblock %}

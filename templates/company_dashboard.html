@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>{{ c.name }} <span class="tag {{ c.status }}">{{ c.status }}</span></h2>
+{% if c.status == 'verified' %}
+  <p>Your company is verified. Use the menu to post internships and review applicants.</p>
+  <h3>Your internships</h3>
+  {% for j in c.jobs %}
+    <div class="card"><b>{{ j.title }}</b> <span class="tag">{{ j.domain }}</span><br>{{ j.duration }}</div>
+  {% else %}<p class="mu">None posted yet.</p>{% endfor %}
+{% else %}
+  <div class="card">
+    <h3>Verification checks</h3>
+    {% for label, ok in run_checks(c) %}<div>{{ '✅' if ok else '❌' }} {{ label }}</div>{% endfor %}
+    {% if c.status == 'rejected' %}<div class="flash error">Rejected: {{ c.reason }}</div>
+    {% else %}<div class="flash warn">Waiting for admin review.</div>{% endif %}
+  </div>
+{% endif %}
+{% endblock %}

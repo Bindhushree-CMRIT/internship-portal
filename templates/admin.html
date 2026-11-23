@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Company verification</h2>
+{% for c in companies %}
+<div class="card">
+  <b>{{ c.name }}</b> <span class="tag {{ c.status }}">{{ c.status }}</span>
+  <p class="mu">{{ c.user.email }} · {{ c.website }}<br>CIN {{ c.cin }} · GST {{ c.gst }}<br>
+  Signatory: {{ c.sign_name }} ({{ c.sign_role }})</p>
+  <p>Documents:
+    {% if c.reg_doc %}<a href="{{ url_for('files', name=c.reg_doc) }}" target="_blank">Registration certificate</a>{% endif %}
+    {% if c.sign_doc %} · <a href="{{ url_for('files', name=c.sign_doc) }}" target="_blank">Signatory proof</a>{% endif %}</p>
+  {% set checks = run_checks(c) %}
+  <b>Automatic checks: {{ checks | selectattr(1) | list | length }}/{{ checks | length }}</b>
+  {% for label, ok in checks %}<div>{{ '✅' if ok else '❌' }} {{ label }}</div>{% endfor %}
+  <form method="post">
+    <input name="reason" placeholder="Reason (required to reject)">
+    <button formaction="{{ url_for('admin_action', cid=c.id, action='approve') }}" class="good">Approve</button>
+    <button formaction="{{ url_for('admin_action', cid=c.id, action='reject') }}" class="bad">Reject</button>
+  </form>
+</div>
+{% else %}<p class="mu">No companies registered yet.</p>{% endfor %}
+{% endblock %}
